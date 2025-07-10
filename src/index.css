@@ -1,0 +1,194 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 35 8% 10%;
+    --foreground: 35 100% 95%;
+    --card: 35 8% 12%;
+    --card-foreground: 35 100% 95%;
+    --popover: 35 8% 12%;
+    --popover-foreground: 35 100% 95%;
+    --primary: 25 85% 60%;
+    --primary-foreground: 35 100% 95%;
+    --secondary: 35 5% 20%;
+    --secondary-foreground: 35 100% 95%;
+    --muted: 35 5% 20%;
+    --muted-foreground: 35 20% 65%;
+    --accent: 30 100% 70%;
+    --accent-foreground: 35 8% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 35 100% 95%;
+    --border: 35 10% 20%;
+    --input: 35 10% 20%;
+    --ring: 25 85% 60%;
+    --chart-1: 25 85% 60%;
+    --chart-2: 30 100% 70%;
+    --chart-3: 35 100% 75%;
+    --chart-4: 15 100% 60%;
+    --chart-5: 40 100% 65%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, 
+      hsl(35, 8%, 8%) 0%, 
+      hsl(30, 20%, 12%) 50%, 
+      hsl(35, 8%, 6%) 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+/* Gaming-themed 3D animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotateX(0deg); }
+  50% { transform: translateY(-15px) rotateX(5deg); }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    opacity: 0.7; 
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+  }
+  50% { 
+    opacity: 1; 
+    box-shadow: 0 0 40px rgba(255, 140, 0, 0.6);
+  }
+}
+
+@keyframes pulse3d {
+  0%, 100% { 
+    transform: scale(1) rotateY(0deg);
+    box-shadow: 0 4px 20px rgba(255, 140, 0, 0.2);
+  }
+  50% { 
+    transform: scale(1.05) rotateY(2deg);
+    box-shadow: 0 8px 40px rgba(255, 140, 0, 0.4);
+  }
+}
+
+@keyframes tilt {
+  0%, 100% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
+  25% { transform: perspective(1000px) rotateX(2deg) rotateY(1deg); }
+  75% { transform: perspective(1000px) rotateX(-1deg) rotateY(-2deg); }
+}
+
+@keyframes cardHover {
+  0% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px); }
+  100% { transform: perspective(1000px) rotateX(-5deg) rotateY(5deg) translateZ(20px); }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.glow-animation {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.pulse-3d {
+  animation: pulse3d 2s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.tilt-animation {
+  animation: tilt 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+  animation: cardHover 0.3s ease forwards;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .float-animation {
+    animation-duration: 2s;
+  }
+  
+  .pulse-3d {
+    animation-duration: 1.5s;
+  }
+  
+  .card-3d:hover {
+    transform: perspective(500px) rotateX(-2deg) rotateY(2deg) translateZ(10px);
+  }
+}
+
+/* Gaming-themed scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(35, 8%, 12%);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, hsl(25, 85%, 60%), hsl(30, 100%, 70%));
+  border-radius: 6px;
+  border: 2px solid hsl(35, 8%, 12%);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, hsl(25, 85%, 70%), hsl(30, 100%, 80%));
+}
+
+/* Smooth scrolling for mobile */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Gaming UI elements */
+.gaming-card {
+  background: linear-gradient(145deg, 
+    hsl(35, 8%, 12%) 0%, 
+    hsl(30, 15%, 8%) 100%);
+  border: 1px solid hsl(25, 85%, 60%);
+  box-shadow: 
+    0 4px 20px rgba(255, 140, 0, 0.1),
+    inset 0 1px 0 rgba(255, 140, 0, 0.1);
+}
+
+.gaming-button {
+  background: linear-gradient(145deg, 
+    hsl(25, 85%, 60%) 0%, 
+    hsl(30, 100%, 70%) 100%);
+  box-shadow: 
+    0 4px 15px rgba(255, 140, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform-style: preserve-3d;
+  transition: all 0.2s ease;
+}
+
+.gaming-button:hover {
+  transform: translateY(-2px) rotateX(5deg);
+  box-shadow: 
+    0 8px 25px rgba(255, 140, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.gaming-button:active {
+  transform: translateY(0px) rotateX(0deg);
+  box-shadow: 
+    0 2px 10px rgba(255, 140, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
