@@ -93,8 +93,14 @@ const Navbar = ({ onAuthClick, onWheelClick }: NavbarProps) => {
                 >
                   🎰 Slot Machine ({profile?.spins || 0})
                 </motion.button>
-                <div className="bg-gray-800 px-3 py-1 rounded-full border border-orange-500/30 shadow-lg">
-                  <span className="text-orange-400 font-semibold">💎 {profile?.points || 0}</span>
+                <div className="bg-gray-800 px-3 py-1 rounded-full border border-orange-500/30 shadow-lg flex items-center gap-2">
+                  <div className="relative w-6 h-6 flex items-center justify-center">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500/80 shadow-inner shadow-orange-500/20"></div>
+                    <div className="absolute inset-0 rounded-full border-2 border-yellow-500/80"></div>
+                    <div className="absolute w-5 h-5 rounded-full bg-gradient-to-br from-yellow-600/80 to-orange-600/60 shadow-inner shadow-orange-500/30"></div>
+                    <span className="absolute text-xs font-semibold text-yellow-900 mt-0.4">XP</span>
+                  </div>
+                  <span className="text-orange-400 font-semibold">{profile?.points || 0}</span>
                 </div>
                 <motion.button
                   onClick={handleLogout}
@@ -153,30 +159,38 @@ const Navbar = ({ onAuthClick, onWheelClick }: NavbarProps) => {
               {user ? (
                 <>
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="text-orange-400 font-semibold">💎 {profile?.points || 0}</span>
-                    <span className="text-yellow-400">🎰 {profile?.spins || 0} spins</span>
+                    <div className="flex items-center gap-2">
+                      <div className="relative w-6 h-6 flex items-center justify-center">
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500/80 shadow-inner shadow-orange-500/20"></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-yellow-500/80"></div>
+                        <div className="absolute w-5 h-5 rounded-full bg-gradient-to-br from-yellow-600/80 to-orange-600/60 shadow-inner shadow-orange-500/30"></div>
+                        <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-yellow-900 -mt-0.5">XP</span>
+                      </div>
+                    </div>
+                    <span className="text-orange-400 font-semibold">{profile?.points || 0}</span>
                   </div>
-                  <button
-                    onClick={onWheelClick}
-                    className="w-full bg-gradient-to-r from-orange-600 to-yellow-600 hover:from-orange-700 hover:to-yellow-700 px-4 py-3 rounded-lg font-semibold text-white mb-2"
-                  >
-                    Slot Machine
-                  </button>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-gray-300 hover:text-white py-2"
-                  >
-                    Logout
-                  </button>
+                  <span className="text-yellow-400">🎰 {profile?.spins || 0} spins</span>
                 </>
               ) : (
-                <button
+                <motion.button
                   onClick={onAuthClick}
                   className="w-full bg-gradient-to-r from-orange-600 to-yellow-600 hover:from-orange-700 hover:to-yellow-700 px-4 py-3 rounded-lg text-white font-semibold"
                 >
                   Join Aqube XP
-                </button>
+                </motion.button>
               )}
+              <button
+                onClick={onWheelClick}
+                className="w-full bg-gradient-to-r from-orange-600 to-yellow-600 hover:from-orange-700 hover:to-yellow-700 px-4 py-3 rounded-lg font-semibold text-white mb-2"
+              >
+                Slot Machine
+              </button>
+              <button
+                onClick={handleLogout}
+                className="w-full text-gray-300 hover:text-white py-2"
+              >
+                Logout
+              </button>
             </div>
           </motion.div>
         )}

@@ -93,7 +93,8 @@ const Index = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1 }}
                   >
-                    Level Up Your Credit Game
+                    Not Just a Card
+                    A Power-Up
                   </motion.p>
                   <motion.div
                     className="mt-6"
@@ -123,7 +124,7 @@ const Index = () => {
               </section>
               
               <section id="features">
-                <Features />
+                <Features onGetStarted={() => setIsAuthModalOpen(true)} />
               </section>
               
               <section id="about">

@@ -1,13 +1,13 @@
 
 import { motion } from 'framer-motion';
-import { Target, Zap, Users, TrophyIcon } from 'lucide-react';
+import { Target, Zap, Users, TrophyIcon, CheckCircle } from 'lucide-react';
 
 const About = () => {
   const stats = [
-    { icon: Users, value: '1K+', label: 'Active Users', color: 'text-orange-400' },
-    { icon: TrophyIcon, value: '$2M+', label: 'Rewards Earned', color: 'text-yellow-400' },
-    { icon: Zap, value: '99.9%', label: 'Uptime', color: 'text-orange-500' },
-    { icon: Target, value: '24/7', label: 'Support', color: 'text-red-400' }
+    { icon: Users, value: '1K+', label: 'Active Gamers', color: 'text-orange-400' },
+    { icon: TrophyIcon, value: '$2M+', label: 'Rewards Claimed', color: 'text-yellow-400' },
+    { icon: Zap, value: '99.9%', label: 'System Uptime', color: 'text-orange-500' },
+    { icon: Target, value: '24/7', label: 'Gamer Support', color: 'text-red-400' }
   ];
 
   return (
@@ -21,66 +21,61 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="mb-8"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
-                Built by Gamers, for Gamers
+            <div className="space-y-6">
+              <h2 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+                About Aqube XP
               </h2>
-              <p className="text-xl text-gray-300 leading-relaxed mb-6">
-                We are gamers passionate about gaming and esports. We recognized that gamers in India deserve financial products that fit their lifestyle. We see a world where gaming is not just a passion.
+              <p className="text-lg text-gray-300">
+                We are gamers, passionate about gaming and esports. We recognized that gamers in India deserve 
+                financial products that match their lifestyle. That's why we're building AqubeXP —India's first 
+                credit card designed for gamers.
               </p>
-              <p className="text-lg text-gray-400 leading-relaxed mb-6">
-                That's why we're building Aqube XP: India's first credit card designed for gamers, offering rewards, benefits, and experiences that truly matter to you.
+              <p className="text-lg text-gray-300">
+                Our mission is to revolutionize how India's gaming community manages money. Our vision is to bridge 
+                the gap between gaming and finance—empowering gamers to earn, save, and enjoy exclusive rewards 
+                on every transaction while promoting financial literacy.
               </p>
-              <p className="text-lg text-gray-400 leading-relaxed">
-                Our mission is to revolutionize how India's gaming community manages money. Our vision is to bridge the gap between gaming and finance. We empower gamers to earn, save, and enjoy exclusive rewards on every transaction and promote financial literacy.
+              <p className="text-lg text-gray-300">
+                We believe gamers deserve more than just points—they deserve power. That's why our card isn't 
+                just about spending smarter; it's about leveling up your life.
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-sm font-bold">✓</span>
+            {/* Key Features */}
+            <div className="mt-8 space-y-4">
+              <h3 className="text-2xl font-bold text-white">Key Features</h3>
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <CheckCircle className="h-6 w-6 text-orange-400 mr-3 mt-1" />
+                  <div>
+                    <h4 className="font-semibold text-white">Gaming-First Rewards</h4>
+                    <p className="text-gray-300">Whether you're a casual mobile gamer or a pro esports athlete, Aqube XP levels up your experience.</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Gaming-First Rewards</h4>
-                  <p className="text-gray-400">Whether you're a casual mobile gamer or a professional esports athlete, Aqube XP will help you level up your gaming experience.</p>
+                <div className="flex items-start">
+                  <CheckCircle className="h-6 w-6 text-orange-400 mr-3 mt-1" />
+                  <div>
+                    <h4 className="font-semibold text-white">Financial Literacy</h4>
+                    <p className="text-gray-300">AqubeXP merges gaming and finance to increase financial literacy within the gaming community.</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <CheckCircle className="h-6 w-6 text-orange-400 mr-3 mt-1" />
+                  <div>
+                    <h4 className="font-semibold text-white">Industry Growth</h4>
+                    <p className="text-gray-300">We're committed to unlocking the full potential of India's gaming and esports industry.</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <CheckCircle className="h-6 w-6 text-orange-400 mr-3 mt-1" />
+                  <div>
+                    <h4 className="font-semibold text-white">Community Driven</h4>
+                    <p className="text-gray-300">More than a credit card— AqubeXP is a movement built for and by gamers.</p>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-sm font-bold">✓</span>
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Financial Literacy</h4>
-                  <p className="text-gray-400">By merging gaming and finance, Aqube is committed to increasing financial literacy and unlocking the full potential of gaming and esports industry.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-sm font-bold">✓</span>
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-2">Community Driven</h4>
-                  <p className="text-gray-400">Aqube XP is more than a credit card—it's a movement to empower gamers and redefine how finance supports the gaming lifestyle in India and beyond.</p>
-                </div>
-              </div>
-            </motion.div>
+            </div>
           </motion.div>
-
           {/* Right Column - Stats */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -111,7 +106,6 @@ const About = () => {
               ))}
             </div>
 
-            {/* Mission statement */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}

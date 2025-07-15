@@ -15,9 +15,7 @@ const MobileOptimizedLayout = ({ children, className = '' }: MobileOptimizedLayo
       ${className}
     `}>
       <div className="
-        w-full 
-        max-w-full 
-        px-4 sm:px-6 lg:px-8
+        w-full
         mx-auto
         space-y-8 md:space-y-16
       ">

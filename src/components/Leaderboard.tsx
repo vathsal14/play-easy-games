@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Award, Crown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { cn } from '@/lib/utils';
 
 interface LeaderboardEntry {
   id: string;
@@ -12,37 +14,65 @@ interface LeaderboardEntry {
 }
 
 const Leaderboard: React.FC = () => {
+  const { user } = useAuth();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userPosition, setUserPosition] = useState<LeaderboardEntry | null>(null);
 
   useEffect(() => {
     fetchLeaderboard();
-  }, []);
+  }, [user]);
 
   const fetchLeaderboard = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch top 3 members
+      const { data: topMembers, error: topError } = await supabase
         .from('profiles')
         .select('id, display_name, points')
         .not('points', 'is', null)
         .order('points', { ascending: false })
-        .limit(10);
+        .limit(3);
 
-      if (error) {
-        console.error('Leaderboard fetch error:', error);
-        throw error;
+      // Fetch user's position if logged in
+      if (user) {
+        const { data: userData, error: userError } = await supabase
+          .from('profiles')
+          .select('id, display_name, points')
+          .not('points', 'is', null)
+          .order('points', { ascending: false })
+          .eq('id', user.id)
+          .single();
+
+        if (userError) throw userError;
+        
+        // Find user's position
+        const { count: userRank } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true })
+          .not('points', 'is', null)
+          .gt('points', userData?.points || 0);
+
+        setUserPosition({
+          ...userData,
+          rank: (userRank || 0) + 1,
+          points: userData?.points || 0,
+          display_name: userData?.display_name || 'Anonymous Gamer'
+        });
       }
 
-      console.log('Leaderboard data:', data);
+      if (topError) {
+        console.error('Top members fetch error:', topError);
+        throw topError;
+      }
 
-      const leaderboardWithRanks = (data || []).map((entry, index) => ({
+      const topMembersWithRanks = (topMembers || []).map((entry, index) => ({
         ...entry,
         rank: index + 1,
         points: entry.points || 0,
         display_name: entry.display_name || 'Anonymous Gamer'
       }));
 
-      setLeaderboard(leaderboardWithRanks);
+      setLeaderboard(topMembersWithRanks);
     } catch (error) {
       console.error('Error fetching leaderboard:', error);
     } finally {
@@ -50,114 +80,171 @@ const Leaderboard: React.FC = () => {
     }
   };
 
-  const getRankIcon = (rank: number) => {
-    switch (rank) {
-      case 1:
-        return <Crown className="w-6 h-6 text-yellow-400" />;
-      case 2:
-        return <Trophy className="w-6 h-6 text-gray-300" />;
-      case 3:
-        return <Medal className="w-6 h-6 text-orange-400" />;
-      default:
-        return <Award className="w-6 h-6 text-gray-500" />;
-    }
-  };
-
   const getRankGradient = (rank: number) => {
     switch (rank) {
       case 1:
-        return "from-yellow-400 to-orange-500";
+        return 'from-gold-500 to-gold-300';
       case 2:
-        return "from-gray-300 to-gray-500";
+        return 'from-silver-500 to-silver-300';
       case 3:
-        return "from-orange-400 to-red-500";
+        return 'from-bronze-500 to-bronze-300';
       default:
-        return "from-gray-600 to-gray-800";
+        return 'from-gray-500 to-gray-300';
     }
   };
 
-  if (loading) {
-    return (
-      <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700/50">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-700 rounded mb-6"></div>
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-16 bg-gray-700 rounded mb-4"></div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const getRankIcon = (rank: number) => {
+    switch (rank) {
+      case 1:
+        return <Crown className="w-6 h-6 text-gold" />;
+      case 2:
+        return <Medal className="w-6 h-6 text-silver" />;
+      case 3:
+        return <Award className="w-6 h-6 text-bronze" />;
+      default:
+        return <Trophy className="w-6 h-6 text-orange-500" />;
+    }
+  };
 
   return (
-    <motion.div
-      className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700/50"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent mb-2">
+    <div className="space-y-4">
+      <motion.div
+        className="text-center mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent mb-2">
           🏆 Leaderboard
         </h2>
-        <p className="text-gray-400">Top gaming champions</p>
-      </div>
+        <p className="text-gray-400 text-lg">Top gaming champions</p>
+      </motion.div>
 
-      <div className="space-y-4">
-        {leaderboard.map((entry, index) => (
+      {loading ? (
+        <div className="animate-pulse">
+          <div className="h-14 bg-gradient-to-r from-gray-700/50 to-gray-800/50 rounded-xl mb-4" />
+          <div className="h-14 bg-gradient-to-r from-gray-700/50 to-gray-800/50 rounded-xl mb-4" />
+          <div className="h-14 bg-gradient-to-r from-gray-700/50 to-gray-800/50 rounded-xl" />
+        </div>
+      ) : (
+        <>
+          {/* Top 3 Members */}
+          {leaderboard.map((entry) => (
+            <motion.div
+              key={entry.id}
+              className={`relative overflow-hidden rounded-xl ${
+                entry.rank === 1 
+                  ? 'bg-gradient-to-r from-orange-500/20 to-orange-400/20 border-2 border-orange-500/50' 
+                  : entry.rank === 2 
+                  ? 'bg-gradient-to-r from-gray-300/20 to-gray-400/20 border-2 border-gray-300/50' 
+                  : entry.rank === 3 
+                  ? 'bg-gradient-to-r from-orange-300/20 to-orange-400/20 border-2 border-orange-300/50' 
+                  : 'bg-card'
+              } p-4 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02]`}
+            >
+              {entry.rank <= 3 && (
+                <motion.div
+                  className={`absolute inset-0 bg-gradient-to-r ${getRankGradient(entry.rank)} rounded-xl opacity-10 blur-xl -z-10`}
+                  animate={{ opacity: [0.1, 0.2, 0.1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+              )}
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-2xl font-bold ${
+                      entry.rank === 1 ? 'text-orange-500' 
+                      : entry.rank === 2 ? 'text-gray-300' 
+                      : entry.rank === 3 ? 'text-orange-400' 
+                      : 'text-white'
+                    }`}>
+                      {entry.rank}
+                    </span>
+                    <span className="text-lg font-semibold text-white">{entry.display_name}</span>
+                  </div>
+                  <div>
+                    <span className="text-sm text-white/80">
+                      {entry.points.toLocaleString()} XP
+                    </span>
+                  </div>
+                </div>
+                {entry.rank === 1 && (
+                  <Crown className="h-8 w-8 text-orange-500" />
+                )}
+                {entry.rank === 2 && (
+                  <Medal className="h-8 w-8 text-gray-300" />
+                )}
+                {entry.rank === 3 && (
+                  <Award className="h-8 w-8 text-orange-400" />
+                )}
+              </div>
+            </motion.div>
+          ))}
+
+          {/* User's Position */}
+          {user && userPosition && (
+            <motion.div
+              key={user.id}
+              className="relative overflow-hidden rounded-xl bg-gradient-to-r from-orange-500/20 to-orange-400/20 p-4 shadow-lg transition-all duration-300 hover:shadow-xl border-2 border-orange-500/50 hover:scale-[1.02]"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl font-bold text-orange-500">
+                      {userPosition.rank}
+                    </span>
+                    <span className="text-lg font-semibold">{userPosition.display_name}</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {userPosition.points.toLocaleString()} XP
+                  </div>
+                </div>
+                <Trophy className="h-6 w-6 text-orange-500" />
+              </div>
+            </motion.div>
+          )}
+
+          {/* Surprise Giveaway Announcement */}
           <motion.div
-            key={entry.id}
-            className={`relative p-4 rounded-xl border ${
-              entry.rank <= 3 
-                ? 'border-orange-500/50 bg-gradient-to-r from-gray-800/80 to-gray-900/80' 
-                : 'border-gray-700/50 bg-gray-800/30'
-            } transition-all duration-300 hover:scale-105`}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
-            whileHover={{ scale: 1.02 }}
+            className="relative overflow-hidden rounded-xl bg-gradient-to-r from-green-500/20 to-green-400/20 p-4 shadow-lg transition-all duration-300 hover:shadow-xl border-2 border-green-500/50 hover:scale-[1.02]"
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className={`flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r ${getRankGradient(entry.rank)}`}>
-                  {entry.rank <= 3 ? getRankIcon(entry.rank) : (
-                    <span className="text-white font-bold">#{entry.rank}</span>
-                  )}
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold text-white">
-                    {entry.display_name}
-                  </h3>
-                  <p className="text-gray-400 text-sm">Rank #{entry.rank}</p>
-                </div>
+              <div>
+                <motion.div
+                  className="flex items-center gap-2"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <span className="text-2xl font-bold text-green-500">
+                    🎁
+                  </span>
+                  <span className="text-lg font-semibold text-white">Surprise Giveaway!</span>
+                </motion.div>
+                <motion.div
+                  className="text-sm text-white/80"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  Top 3 contenders will receive exclusive rewards every month!
+                </motion.div>
               </div>
-
-              <div className="text-right">
-                <div className="text-2xl font-bold text-orange-400">
-                  💎 {entry.points.toLocaleString()}
-                </div>
-                <p className="text-gray-400 text-sm">points</p>
-              </div>
-            </div>
-
-            {entry.rank <= 3 && (
               <motion.div
-                className={`absolute inset-0 bg-gradient-to-r ${getRankGradient(entry.rank)} rounded-xl opacity-10 blur-xl -z-10`}
-                animate={{ opacity: [0.1, 0.2, 0.1] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              />
-            )}
+                className="flex gap-2"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Crown className="h-8 w-8 text-orange-500" />
+                <Medal className="h-8 w-8 text-gray-300" />
+                <Award className="h-8 w-8 text-orange-400" />
+              </motion.div>
+            </div>
           </motion.div>
-        ))}
-      </div>
+        </>
+      )}
 
       {leaderboard.length === 0 && (
         <div className="text-center py-8">
           <p className="text-gray-400">No players yet. Be the first to join the leaderboard!</p>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

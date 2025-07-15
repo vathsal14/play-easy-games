@@ -1,7 +1,10 @@
 
 import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/AuthContext';
 
 const AnimatedCreditCard = () => {
+  const { profile } = useAuth();
+  const displayName = profile?.display_name || 'Gaming Elite';
   return (
     <motion.div
       className="relative w-96 h-60 perspective-1000"
@@ -43,7 +46,7 @@ const AnimatedCreditCard = () => {
             <div className="flex justify-between items-end">
               <div>
                 <p className="text-orange-100 text-xs uppercase tracking-wide">Cardholder</p>
-                <p className="text-white font-semibold">Gaming Elite</p>
+                <p className="text-white font-semibold truncate max-w-[180px]">{displayName}</p>
               </div>
               <div className="text-right">
                 <p className="text-orange-100 text-xs uppercase tracking-wide">Expires</p>
