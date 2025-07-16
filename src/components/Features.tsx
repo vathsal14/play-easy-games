@@ -93,76 +93,44 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
           </p>
         </motion.div>
 
-        {isMobile ? (
-          <div className="relative h-[500px] md:hidden">
-            <AnimatePresence>
+        <div className="relative">
+          <div className="flex overflow-x-auto pb-6 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
+            <div className="flex space-x-6">
               {features.map((feature, index) => (
-                index === activeIndex && (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -50, scale: 0.95 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0 group relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-orange-500/20 transition-all duration-300"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-yellow-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-6 mx-auto`}>
-                      <feature.icon className="w-8 h-8 text-white" />
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold text-white mb-4 text-center">
-                      {feature.title}
-                    </h3>
-                    
-                    <p className="text-gray-400 leading-relaxed text-center">
-                      {feature.description}
-                    </p>
-                    
-                    <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-                      {features.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setActiveIndex(i)}
-                          className={`w-2 h-2 rounded-full transition-colors ${i === activeIndex ? 'bg-orange-500' : 'bg-gray-600'}`}
-                          aria-label={`Go to feature ${i + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                )
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+                  className="group relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:transform hover:scale-105 h-full min-w-[280px] max-w-[300px] snap-center flex-shrink-0"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-yellow-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  <div className={`w-14 h-14 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-4 mx-auto transform group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="w-6 h-6 text-white" />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-3 text-center group-hover:text-orange-400 transition-colors duration-300">
+                    {feature.title}
+                  </h3>
+                  
+                  <p className="text-sm text-gray-400 leading-relaxed text-center group-hover:text-gray-300 transition-colors duration-300">
+                    {feature.description}
+                  </p>
+                </motion.div>
               ))}
-            </AnimatePresence>
+            </div>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:transform hover:scale-105 h-full"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-yellow-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 transition-transform duration-300`}>
-                  <feature.icon className="w-8 h-8 text-white" />
-                </div>
-                
-                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-orange-400 transition-colors duration-300">
-                  {feature.title}
-                </h3>
-                
-                <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
+          <div className="text-center mt-2 text-xs text-gray-500 md:hidden">
+            <span className="inline-flex items-center">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+              </svg>
+              Scroll to explore features
+            </span>
           </div>
-        )}
+        </div>
 
         {/* Special Offer Section */}
         <motion.div
@@ -227,31 +195,13 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
                       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(251,191,36,0.1)_0%,transparent_70%)]"></div>
                     </div>
                     
-                    {/* Animated elements */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-between p-6">
-                      {/* Top section - Team logo */}
-                      <div className="relative z-10 w-20 h-20 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center shadow-lg transform transition-transform duration-300 group-hover:scale-110">
-                        <span className="text-black font-extrabold text-xl">XP</span>
-                        <div className="absolute inset-0 rounded-full border-2 border-white/20"></div>
-                        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8),transparent_70%)] opacity-30"></div>
-                      </div>
-                      
-                      {/* Middle section - Jersey details */}
-                      <div className="relative z-10 text-center">
-                        <h4 className="text-white font-bold text-xl mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">AQUBE ESPORTS</h4>
-                        <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto mb-3 rounded-full"></div>
-                        <div className="text-white/80 text-sm">2025 SEASON</div>
-                      </div>
-                      
-                      {/* Bottom section - Player info */}
-                      <div className="relative z-10 flex items-center justify-between w-full">
-                        <div className="text-white/70 text-sm">#23</div>
-                        <div className="text-center">
-                          <div className="text-xs text-white/60 mb-1">POWERED BY</div>
-                          <div className="text-white font-bold">AQUBE</div>
-                        </div>
-                        <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center text-black font-bold">XP</div>
-                      </div>
+                    {/* Jersey Image */}
+                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                      <img 
+                        src="/images/jersey.jpeg" 
+                        alt="Aqube Esports Jersey" 
+                        className="h-full w-auto max-w-full object-contain rounded-lg shadow-2xl transform transition-transform duration-500 group-hover:scale-105"
+                      />
                     </div>
                     
                     {/* Shine effect on hover */}
