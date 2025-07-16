@@ -205,37 +205,7 @@ const Leaderboard: React.FC = () => {
           )}
 
           {/* Surprise Giveaway Announcement */}
-          <motion.div
-            className="relative overflow-hidden rounded-xl bg-gradient-to-r from-green-500/20 to-green-400/20 p-4 shadow-lg transition-all duration-300 hover:shadow-xl border-2 border-green-500/50 hover:scale-[1.02]"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <motion.div
-                  className="flex items-center gap-2"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <span className="text-2xl font-bold text-green-500">
-                    🎁
-                  </span>
-                  <span className="text-lg font-semibold text-white">Surprise Giveaway!</span>
-                </motion.div>
-                <motion.div
-                  className="text-sm text-white/80"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  Top 3 contenders will receive exclusive rewards every month!
-                </motion.div>
-              </div>
-              <motion.div
-                className="flex gap-2"
-                whileHover={{ scale: 1.05 }}
-              >
-                <Crown className="h-8 w-8 text-orange-500" />
-                <Medal className="h-8 w-8 text-gray-300" />
-                <Award className="h-8 w-8 text-orange-400" />
-              </motion.div>
-            </div>
-          </motion.div>
+          
         </>
       )}
 

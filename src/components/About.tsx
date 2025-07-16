@@ -4,7 +4,7 @@ import { Target, Zap, Users, TrophyIcon, CheckCircle } from 'lucide-react';
 
 const About = () => {
   const stats = [
-    { icon: Users, value: '1K+', label: 'Active Gamers', color: 'text-orange-400' },
+    { icon: Users, value: '1K+', label: 'Pre Registers', color: 'text-orange-400' },
     { icon: TrophyIcon, value: '$2M+', label: 'Rewards Claimed', color: 'text-yellow-400' },
     { icon: Zap, value: '99.9%', label: 'System Uptime', color: 'text-orange-500' },
     { icon: Target, value: '24/7', label: 'Gamer Support', color: 'text-red-400' }

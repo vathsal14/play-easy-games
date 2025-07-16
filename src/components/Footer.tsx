@@ -47,15 +47,15 @@ const Footer = () => {
             >
               <div className="flex items-center space-x-3 text-gray-400">
                 <Mail className="w-4 h-4 text-orange-400" />
-                <span>support@aqube.xyz</span>
+                <span>info@aqube.xyz</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-400">
                 <Phone className="w-4 h-4 text-orange-400" />
-                <span>+91 1234567890</span>
+                <span>+91 9121184320</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-400">
                 <MapPin className="w-4 h-4 text-orange-400" />
-                <span>Bengaluru, India</span>
+                <span>Hyderabad, India</span>
               </div>
             </motion.div>
           </div>
@@ -146,7 +146,7 @@ const Footer = () => {
           >
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-gray-400 text-sm">
-                &copy; 2024 Aqube XP. All rights reserved. | Made with ❤️ for gamers
+                &copy; 2025 Aqube XP. All rights reserved. | Made with ❤️ for gamers
               </p>
             </div>
           </motion.div>
