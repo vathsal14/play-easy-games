@@ -1,13 +1,21 @@
-
 import { motion } from 'framer-motion';
 import { Gamepad2, CreditCard, TrophyIcon, Shield } from 'lucide-react';
 import AnimatedCreditCard from './AnimatedCreditCard';
 
 interface HeroProps {
-  onGetStarted: () => void;
+  onGetStarted?: () => void;
 }
 
 const Hero = ({ onGetStarted }: HeroProps) => {
+  const handleGetStarted = () => {
+    if (onGetStarted) {
+      onGetStarted();
+    } else {
+      // Default behavior - scroll to features or open modal
+      console.log('Get started clicked');
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-gray-900 to-orange-900">
       {/* Animated background elements */}
@@ -65,18 +73,13 @@ const Hero = ({ onGetStarted }: HeroProps) => {
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12"
             >
               <button
-                onClick={onGetStarted}
+                onClick={handleGetStarted}
                 className="group relative px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl font-bold text-lg text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
               >
                 <span className="relative z-10">Pre Register Now</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
-              
-            
             </motion.div>
-
-            {/* Feature highlights */}
-            
           </motion.div>
 
           {/* Right Column - Credit Card */}
@@ -88,7 +91,21 @@ const Hero = ({ onGetStarted }: HeroProps) => {
           >
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 to-yellow-500/30 rounded-3xl blur-3xl transform rotate-12 scale-110"></div>
-              <AnimatedCreditCard />
+              <div className="relative w-80 h-48 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-orange-500/30 shadow-2xl">
+                <div className="p-6 h-full flex flex-col justify-between">
+                  <div className="flex justify-between items-start">
+                    <div className="text-orange-400 font-bold text-lg">AqubeXP</div>
+                    <div className="w-8 h-8 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full"></div>
+                  </div>
+                  <div className="text-white font-mono text-lg tracking-wider">
+                    **** **** **** 1234
+                  </div>
+                  <div className="flex justify-between items-end text-gray-300 text-sm">
+                    <div>GAMER</div>
+                    <div>12/28</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
