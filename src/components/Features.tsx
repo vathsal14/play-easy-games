@@ -1,8 +1,7 @@
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Gamepad2, CreditCard, Zap, Trophy, Sparkles, Bot } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect, useRef } from 'react';
 
 interface FeaturesProps {
   onGetStarted?: () => void;
@@ -11,14 +10,20 @@ interface FeaturesProps {
 const Features = ({ onGetStarted }: FeaturesProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const { user, signIn } = useAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.3, 1, 1, 0.3]);
 
   const handleGetJerseyClick = () => {
     if (onGetStarted) {
       onGetStarted();
-    } else if (typeof window !== 'undefined') {
-      window.location.href = '/auth';
+    } else {
+      console.log('Get jersey clicked');
     }
   };
 
@@ -75,8 +80,17 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
   }, [isMobile, features.length]);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
+      {/* Parallax Background Elements */}
+      <motion.div 
+        style={{ y, opacity }}
+        className="absolute inset-0 opacity-20"
+      >
+        <div className="absolute top-1/4 left-10 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-10 w-40 h-40 bg-yellow-500/10 rounded-full blur-3xl"></div>
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -132,7 +146,7 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
           </div>
         </div>
 
-        {/* Special Offer Section */}
+        {/* Special Offer Section with Parallax */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -150,7 +164,8 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
                 </div>
               </div>
             </div>
-                        {/* Middle Column - Content */}
+            
+            {/* Middle Column - Content */}
             <div className="flex flex-col justify-center text-center lg:text-left">
               <span className="inline-block bg-orange-500/20 text-orange-400 text-xs font-medium px-3 py-1.5 rounded-full mb-3 self-center lg:self-start">
                 Exclusive Pre-registration Offer
@@ -161,41 +176,28 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
               <p className="text-gray-300 mb-6">
                 All pre-registered users will receive an exclusive esports team jersey with their Aqube XP credit card.
               </p>
-              {!user && (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <button
-                    onClick={handleGetJerseyClick}
-                    className="group relative px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl font-bold text-base text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
-                  >
-                    <span className="relative z-10">Secure Your Jersey Now</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </button>
-                </div>
-              )}
-              {user && (
-                <p className="text-green-400 text-sm font-medium mt-2">
-                  ✓ You're registered for the free jersey!
-                </p>
-              )}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <button
+                  onClick={handleGetJerseyClick}
+                  className="group relative px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl font-bold text-base text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-orange-500/25"
+                >
+                  <span className="relative z-10">Secure Your Jersey Now</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-700 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+              </div>
             </div>
             
-            {/* Right Column - Visual */}
+            {/* Right Column - Jersey Visual */}
             <div className="hidden lg:flex items-center justify-center relative">
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-xl -m-4"></div>
                 <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-6 rounded-xl border border-orange-500/20">
-                  <div className="text-5xl font-black text-orange-500/10 absolute -top-2 right-2"></div>
-                  <p className="text-white font-medium text-lg">Pre-register Now</p>
-                  <p className="text-orange-400 font-bold text-2xl mt-1">Get Your Free Jersey</p>
                   <div className="relative h-64 w-full mt-4 overflow-hidden rounded-2xl border-2 border-orange-500/30 bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl shadow-black/50 transform transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-orange-500/20">
-                    {/* Background with gradient overlay */}
                     <div className="absolute inset-0">
-                      
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(251,191,36,0.1)_0%,transparent_70%)]"></div>
                     </div>
                     
-                    {/* Jersey Image */}
                     <div className="absolute inset-0 flex items-center justify-center p-0">
                       <img 
                         src="/images/jersey.png" 
@@ -204,15 +206,10 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
                       />
                     </div>
                     
-                    {/* Shine effect on hover */}
                     <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0)_50%] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    {/* Animated border highlight */}
                     <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-orange-500/50 transition-all duration-500"></div>
                     
-                    {/* Limited edition tag */}
                     <div className="absolute -top-2 right-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg transform transition-all duration-300 group-hover:translate-y-1">
-                      
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping"></div>
                     </div>
                   </div>
