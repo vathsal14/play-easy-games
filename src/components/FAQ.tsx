@@ -88,6 +88,8 @@ const FAQ = () => {
             ))}
           </Accordion>
         </motion.div>
+
+
       </div>
     </section>
   );

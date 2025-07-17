@@ -1,50 +1,30 @@
-
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Gamepad2, CreditCard, TrophyIcon, Shield } from 'lucide-react';
-import { useRef } from 'react';
+import AnimatedCreditCard from './AnimatedCreditCard';
 
 interface HeroProps {
   onGetStarted?: () => void;
 }
 
 const Hero = ({ onGetStarted }: HeroProps) => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
-
   const handleGetStarted = () => {
     if (onGetStarted) {
       onGetStarted();
     } else {
+      // Default behavior - scroll to features or open modal
       console.log('Get started clicked');
     }
   };
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Parallax Background */}
-      <motion.div 
-        style={{ y }}
-        className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-orange-900"
-      >
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div 
-            style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "30%"]) }}
-            className="absolute -top-40 -right-40 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl animate-pulse"
-          ></motion.div>
-          <motion.div 
-            style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]) }}
-            className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl animate-pulse"
-          ></motion.div>
-        </div>
-      </motion.div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-black via-gray-900 to-orange-900">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
+      </div>
 
-      <motion.div style={{ opacity }} className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
           <motion.div
@@ -59,6 +39,7 @@ const Hero = ({ onGetStarted }: HeroProps) => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex items-center justify-center lg:justify-start space-x-2 mb-6"
             >
+              
               <span className="text-orange-400 font-semibold text-lg">AqubeXP</span>
             </motion.div>
 
@@ -101,33 +82,20 @@ const Hero = ({ onGetStarted }: HeroProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - Credit Card with Enhanced 3D Effect */}
+          {/* Right Column - Credit Card */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex justify-center lg:justify-end"
           >
-            <div className="relative group perspective-1000">
-              <motion.div 
-                whileHover={{ rotateY: 15, rotateX: 5 }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-0 bg-gradient-to-r from-orange-500/30 to-yellow-500/30 rounded-3xl blur-3xl transform rotate-12 scale-110 group-hover:scale-125 transition-transform duration-500"
-              ></motion.div>
-              <motion.div 
-                whileHover={{ scale: 1.05, rotateY: 10 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-80 h-48 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-orange-500/30 shadow-2xl transform-gpu"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <div className="p-6 h-full flex flex-col justify-between relative z-10">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 to-yellow-500/30 rounded-3xl blur-3xl transform rotate-12 scale-110"></div>
+              <div className="relative w-80 h-48 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-orange-500/30 shadow-2xl">
+                <div className="p-6 h-full flex flex-col justify-between">
                   <div className="flex justify-between items-start">
                     <div className="text-orange-400 font-bold text-lg">AqubeXP</div>
-                    <motion.div 
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                      className="w-8 h-8 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full"
-                    ></motion.div>
+                    <div className="w-8 h-8 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full"></div>
                   </div>
                   <div className="text-white font-mono text-lg tracking-wider">
                     **** **** **** 1234
@@ -137,28 +105,21 @@ const Hero = ({ onGetStarted }: HeroProps) => {
                     <div>12/28</div>
                   </div>
                 </div>
-                {/* Holographic effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Enhanced Scroll indicator with parallax */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 1.2 }}
-        style={{ y: useTransform(scrollYProgress, [0, 0.3], [0, 50]) }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
         <div className="w-6 h-10 border-2 border-orange-400 rounded-full flex justify-center">
-          <motion.div 
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-1 h-3 bg-orange-400 rounded-full mt-2"
-          ></motion.div>
+          <div className="w-1 h-3 bg-orange-400 rounded-full mt-2 animate-bounce"></div>
         </div>
       </motion.div>
     </section>
