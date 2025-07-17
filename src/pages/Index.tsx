@@ -117,31 +117,7 @@ const Index = () => {
               </section>
 
               {/* Survey Section */}
-              <section id="survey" className="py-20 bg-gradient-to-br from-gray-900 via-orange-900/20 to-black">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <motion.div
-                    className="text-center mb-12"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
-                      Help Us Serve You Better
-                    </h2>
-                    <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                      Share your gaming preferences and financial needs to help us create the perfect credit card for you.
-                    </p>
-                    <motion.button
-                      onClick={() => setIsSurveyModalOpen(true)}
-                      className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-200"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Take Survey
-                    </motion.button>
-                  </motion.div>
-                </div>
-              </section>
+              
 
               {/* Games Section */}
               <section id="games" className="py-20 bg-gradient-to-br from-black via-gray-900 to-orange-900/20">

@@ -196,11 +196,11 @@ const Features = ({ onGetStarted }: FeaturesProps) => {
                     </div>
                     
                     {/* Jersey Image */}
-                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                    <div className="absolute inset-0 flex items-center justify-center p-0">
                       <img 
-                        src="/images/jersey.jpeg" 
+                        src="/images/jersey.png" 
                         alt="Aqube Esports Jersey" 
-                        className="h-full w-auto max-w-full object-contain rounded-lg shadow-2xl transform transition-transform duration-500 group-hover:scale-105"
+                        className="h-[160%] w-auto max-w-[160%] object-contain rounded-lg shadow-2xl transform transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     

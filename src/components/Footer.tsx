@@ -92,47 +92,34 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Gaming Rewards */}
+          {/* Help Us Serve You Better */}
           <div className="lg:col-span-1 md:col-span-1 flex flex-col justify-start">
             <motion.h3
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
               viewport={{ once: true }}
-              className="text-lg font-semibold text-orange-400 mb-6"
+              className="text-lg font-semibold text-orange-400 mb-4"
             >
-              Gaming Rewards
+              Help Us Serve You Better
             </motion.h3>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               viewport={{ once: true }}
-              className="space-y-3"
+              className="space-y-4"
             >
+              <p className="text-gray-400 text-sm">
+                Share your gaming preferences and financial needs to help us create the perfect credit card for you.
+              </p>
               <motion.a
-                href="#rewards"
-                className="text-gray-400 hover:text-orange-400 transition-colors duration-200 flex items-center space-x-2"
-                whileHover={{ x: 5 }}
+                href="#survey"
+                className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:from-orange-600 hover:to-orange-700 transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span>🎮</span>
-                <span>Game Store Discounts</span>
-              </motion.a>
-              <motion.a
-                href="#rewards"
-                className="text-gray-400 hover:text-orange-400 transition-colors duration-200 flex items-center space-x-2"
-                whileHover={{ x: 5 }}
-              >
-                <span>🎮</span>
-                <span>Gaming Gear Offers</span>
-              </motion.a>
-              <motion.a
-                href="#rewards"
-                className="text-gray-400 hover:text-orange-400 transition-colors duration-200 flex items-center space-x-2"
-                whileHover={{ x: 5 }}
-              >
-                <span>🎮</span>
-                <span>ESports Tournament Access</span>
+                Take Survey
               </motion.a>
             </motion.div>
           </div>
